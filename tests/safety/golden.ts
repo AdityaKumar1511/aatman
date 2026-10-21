@@ -1,0 +1,132 @@
+import type { CrisisLevel } from "@/lib/safety";
+
+/**
+ * Golden set for the crisis detector. CI requires 100% recall on `MUST_DETECT`.
+ * Starter set: grow it to 300+ phrases with the counselling cell before the pilot,
+ * including real (anonymised) phrasings students use.
+ */
+export const MUST_DETECT: { text: string; atLeast: Exclude<CrisisLevel, "none"> }[] = [
+  // English: acute
+  { text: "I want to kill myself", atLeast: "acute" },
+  { text: "i'm going to kill my self tonight", atLeast: "acute" },
+  { text: "thinking about ending my life", atLeast: "acute" },
+  { text: "I just want to end it all", atLeast: "acute" },
+  { text: "I've been having suicidal thoughts", atLeast: "acute" },
+  { text: "thinking of sucide", atLeast: "acute" },
+  { text: "Suicide feels like the only way out.", atLeast: "acute" },
+  { text: "i wanna die", atLeast: "acute" },
+  { text: "I want to die", atLeast: "acute" },
+  { text: "I've decided to die", atLeast: "acute" },
+  { text: "might take my own life", atLeast: "acute" },
+  { text: "I'll overdose on my pills", atLeast: "acute" },
+  { text: "going to jump off the hostel roof", atLeast: "acute" },
+  { text: "I won't be here tomorrow", atLeast: "acute" },
+  { text: "planning to hang myself", atLeast: "acute" },
+  { text: "I KILL MYSELF!!!", atLeast: "acute" },
+  // English: self-harm
+  { text: "I cut myself last night", atLeast: "self_harm" },
+  { text: "I've been hurting myself", atLeast: "self_harm" },
+  { text: "started self-harming again", atLeast: "self_harm" },
+  { text: "I burn myself when it gets bad", atLeast: "self_harm" },
+  // English: passive
+  { text: "everyone would be better off without me", atLeast: "passive" },
+  { text: "there's no reason to live", atLeast: "passive" },
+  { text: "I wish I was never born", atLeast: "passive" },
+  { text: "I can't go on like this", atLeast: "passive" },
+  { text: "I don't want to wake up tomorrow", atLeast: "passive" },
+  { text: "I just want to disappear", atLeast: "passive" },
+  { text: "so tired of living", atLeast: "passive" },
+  { text: "I wish I could die", atLeast: "passive" },
+
+  // Hinglish: acute
+  { text: "main mar jaana chahta hoon", atLeast: "acute" },
+  { text: "mai marr jana chahti hu", atLeast: "acute" },
+  { text: "mujhe mar jana chahiye", atLeast: "acute" },
+  { text: "marna chahta hu yaar", atLeast: "acute" },
+  { text: "khud ko maar dunga", atLeast: "acute" },
+  { text: "khudko khatam kar lunga", atLeast: "acute" },
+  { text: "apne aap ko maar dalunga", atLeast: "acute" },
+  { text: "sab khatam kar dunga", atLeast: "acute" },
+  { text: "zindagi khatam kar deni hai", atLeast: "acute" },
+  { text: "jindgi khatam karni hai", atLeast: "acute" },
+  { text: "atmahatya ke baare mein soch raha hoon", atLeast: "acute" },
+  { text: "aatmhatya", atLeast: "acute" },
+  { text: "jaan de dunga", atLeast: "acute" },
+  { text: "fan se latak jaunga", atLeast: "acute" },
+  { text: "phaansi laga lunga", atLeast: "acute" },
+  { text: "zehar kha lunga", atLeast: "acute" },
+  { text: "nas kaat lunga", atLeast: "acute" },
+  { text: "suicide kar lunga", atLeast: "acute" },
+  // Hinglish: self-harm
+  { text: "khud ko chot pahunchata hoon", atLeast: "self_harm" },
+  { text: "apne aap ko hurt karti hu", atLeast: "self_harm" },
+  { text: "haath kaat liya", atLeast: "self_harm" },
+  // Hinglish: passive
+  { text: "jeene ka mann nahi karta", atLeast: "passive" },
+  { text: "jine ka man nahi hai", atLeast: "passive" },
+  { text: "jeena nahi chahta", atLeast: "passive" },
+  { text: "main toh mar jaunga", atLeast: "passive" },
+  { text: "mar jana hi behtar hai", atLeast: "passive" },
+  { text: "zindagi se thak gaya hoon", atLeast: "passive" },
+  { text: "sab kuch khatam ho gaya", atLeast: "passive" },
+  { text: "koi fayda nahi jeene ka", atLeast: "passive" },
+
+  // Devanagari: acute
+  { text: "मैं आत्महत्या करना चाहता हूं", atLeast: "acute" },
+  { text: "मैं मर जाना चाहती हूँ", atLeast: "acute" },
+  { text: "खुद को मार दूंगा", atLeast: "acute" },
+  { text: "अपने आप को खत्म कर लूंगी", atLeast: "acute" },
+  { text: "जान दे दूंगा", atLeast: "acute" },
+  { text: "फाँसी लगा लूंगा", atLeast: "acute" },
+  { text: "ज़हर खा लूंगा", atLeast: "acute" },
+  { text: "ज़िंदगी खत्म कर दूंगा", atLeast: "acute" },
+  { text: "ज़िन्दगी ख़त्म करना है", atLeast: "acute" },
+  // Devanagari: self-harm
+  { text: "खुद को चोट पहुंचाता हूं", atLeast: "self_harm" },
+  // Devanagari: passive
+  { text: "जीने का मन नहीं करता", atLeast: "passive" },
+  { text: "जीना नहीं चाहता", atLeast: "passive" },
+  { text: "ज़िंदगी से थक गया हूं", atLeast: "passive" },
+  { text: "सब कुछ खत्म हो गया", atLeast: "passive" },
+  { text: "मैं तो मर जाऊँगा", atLeast: "passive" },
+];
+
+/** Everyday student language that must NOT trigger the detector. */
+export const MUST_NOT_DETECT: string[] = [
+  "I killed it in the exam today",
+  "this assignment is killing me",
+  "I'm dying to watch the match",
+  "dead tired after the lab",
+  "I need to cut down on caffeine",
+  "the deadline is going to kill my sleep",
+  "I hurt my knee playing football",
+  "I'm so done with this semester",
+  "exam ne maar daala yaar",
+  "khud ko maaf karna seekh raha hoon",
+  "jeene ke liye kuch naya karna hai",
+  "mera phone mar gaya",
+  "zindagi badi mast hai",
+  "सब ठीक है, बस नींद कम है",
+  "परीक्षा का तनाव है",
+  "succeeded in the viva finally",
+  "my friend is suspicious of everything",
+];
+
+/**
+ * Known false positives we accept because the detector favours recall.
+ * Kept as a test so any change to this behaviour is a deliberate decision.
+ */
+export const ACCEPTED_FALSE_POSITIVES: { text: string; level: CrisisLevel }[] = [
+  { text: "I would never kill myself", level: "acute" },
+  { text: "watched Suicide Squad yesterday", level: "acute" },
+  { text: "I'm gonna die in tomorrow's exam", level: "passive" },
+];
+
+/** Ragging mentions must be flagged so the text is routed away from the LLM. */
+export const RAGGING_TEXTS: string[] = [
+  "seniors are ragging us every night",
+  "I got ragged in the hostel",
+  "seniors forced us to stand all night",
+  "seniors ne maara kal raat",
+  "हॉस्टल में रैगिंग होती है",
+];
